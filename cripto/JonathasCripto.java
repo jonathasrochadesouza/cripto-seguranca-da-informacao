@@ -23,7 +23,7 @@ public class JonathasCripto {
 //	CompareTo
 //	indice das letras somado a um
 //	forIt :
-//  v·riar a quantidade do array de acordo de acordo o valor m·ximo, para n„o ultrapassar de 0. Caso a letra seja z o valor dela È 26 a chave que soma com ela dever· ser 0, para que seja possÌvel realizar a soma sem erros
+//  v√°riar a quantidade do array de acordo de acordo o valor m√°ximo, para n√£o ultrapassar de 0. Caso a letra seja z o valor dela √© 26 a chave que soma com ela dever√° ser 0, para que seja poss√≠vel realizar a soma sem erros
 	
 	public static void main(String[] args) {
 	    System.out.println("Entre com a mensagem que deseja criptografar: ");
@@ -31,9 +31,9 @@ public class JonathasCripto {
 	    String userName = myObj.nextLine();
 //	    System.out.println("Sua mensagem criptografada: " + convertInNumber(transformText(userName)));
 	    String[] trste = convertInNumber(transformText(userName)).split("(?<=\\G.{2})");
-	    System.out.println(Arrays.toString(trste));
-	    System.out.println(Arrays.toString(newMethodTestExperiment(trste)));
-	    System.out.println("Sua chave È: " + Arrays.toString(numChave));
+	    System.out.println("Convers√£o em n√∫meros: " + Arrays.toString(trste));
+	    System.out.println("N√∫mero m√°ximo do radom: " + Arrays.toString(newMethodTestExperiment(trste)));
+	    System.out.println("Sua chave √©: " + Arrays.toString(numChave));
 //	    System.out.println("Sua mensagem criptografada: " + newMethodTestExperiment(trste));
 	    
 
@@ -194,9 +194,9 @@ public class JonathasCripto {
 			numChaveMaxArray[i] = max[i] - numChaveMaxArray[i];
 			
 			int number = random.nextInt(numChaveMaxArray[i]);
-
 			numChave[i] = number;
-			numChaveMaxArray[i] = numChaveMaxArray[i] - number;
+			
+//			numChaveMaxArray[i] = numChaveMaxArray[i] - number;
 		}
 		
 		return numChaveMaxArray;
