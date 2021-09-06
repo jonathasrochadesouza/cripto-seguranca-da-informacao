@@ -1,5 +1,6 @@
 package cripto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -8,7 +9,7 @@ import java.util.Scanner;
  * 
  * @author Jonathas Rocha de Souza
  */
-public class CriptoJonathasRochaDeSouza {
+public class JonathasCripto {
 
 	/*
 	 * Obs:
@@ -29,9 +30,12 @@ public class CriptoJonathasRochaDeSouza {
 //	    String userName = myObj.nextLine();
 //	    System.out.println("Sua mensagem criptografada: " + convertInNumber(transformText(userName)));
 	    
-	    String[] numerosTeste = {"01", "02"};
+//	    String[] numerosTeste = {"00", "00", "26", "00", "00", "01", "01", "01", "00", "24"};
+//	    System.out.println(Arrays.toString(newMethodTestExperiment(numerosTeste)));
 		
-	    System.out.println(Arrays.toString(calcMaxValueInKeyArray(numerosTeste)));
+		System.out.println(Arrays.toString(descriptografia("2020202020202020", "0102030405")));
+		
+//		System.out.println("Caso algo tenha dado errado, por favor, certifique a chave e a mensagem criptografada!");
 	}
 	
 	private static String[] numChaveMax = new String[5];
@@ -82,30 +86,104 @@ public class CriptoJonathasRochaDeSouza {
 		return numberConverted.split("(?<=\\G.{2})"); // regex
 	}
 	
-	private static int[] calcMaxValueInKeyArray(String[] arrayTextInNumber) {
-
+	/**
+	 * 
+	 * @param arrayTextInNumber
+	 * @return
+	 */
+	private static int[] newMethodTestExperiment(String[] arrayTextInNumber) {
+		
 		int[] numChaveMaxArray = new int[5];
+		int[] max = {26, 26, 26, 26, 26};
 		
-		int iKey = 0;
+		int key = 0;
+		int countAdd = 0;
+		boolean liberado = false;
 		
-		for (int i = 0; i < arrayTextInNumber.length /*&& iKey <= numChaveMax.length*/; i++) {
-
-			if (arrayTextInNumber[i].compareTo(numeros[i]) == 0) {
-				
-				if (i > numChaveMaxArray[iKey]) {
-					numChaveMaxArray[iKey] = i;
-
-					i = -1;
-				}
-				
-				if (iKey < numChaveMaxArray.length) {
-					iKey++;
-				} else if (iKey >= numChaveMaxArray.length) {
-					iKey = 0;
-				}
+		for (int i = 0; liberado != true; i++) {
+			
+			if (i >= arrayTextInNumber.length && key >= 5 || key >= 5 && countAdd >= arrayTextInNumber.length) {
+				liberado = true;
 			}
-		}
+			
+			if (key < arrayTextInNumber.length && liberado != true) {
+				if (countAdd < arrayTextInNumber.length ) {
+					if (arrayTextInNumber[countAdd] == "00") {
+						numChaveMaxArray[key] = 0;
+						countAdd++;
+						i = -1;
+						
+						if (key >= 4 && countAdd < arrayTextInNumber.length) {
+							key = 0;
+						} else {
+							key++;
+						}
+					} else if (arrayTextInNumber[countAdd].compareTo(numeros[i]) == 0) {
+						
+						if (i+1 > numChaveMaxArray[key]) {
+							numChaveMaxArray[key] = i+ 1;
+						}
 
+						countAdd++;
+						i = -1;
+						
+						if (key >= 4 && countAdd < arrayTextInNumber.length) {
+							key = 0;
+						} else {
+							key++;
+						}
+					
+					}
+				} else if (arrayTextInNumber[key] == "00") {
+					numChaveMaxArray[key] = 0;
+					countAdd++;
+					i = -1;
+					
+					if (key >= 4 && countAdd < arrayTextInNumber.length) {
+						key = 0;
+					} else {
+						key++;
+					}
+				} else if (arrayTextInNumber[key].compareTo(numeros[i]) == 0) {
+					
+					if (i+1 > numChaveMaxArray[key]) {
+						numChaveMaxArray[key] = i+ 1;
+					}
+
+					countAdd++;
+					i = -1;
+					
+//						numChaveMaxArray[key] = i+ 1;
+//						i = -1;
+
+//					if (key < 5 && countAdd <= arrayTextInNumber.length) {
+//						key++;
+//					} else {
+//						key = 0;
+//					}
+					
+					if (key >= 4 && countAdd < arrayTextInNumber.length) {
+						key = 0;
+					} else {
+						key++;
+					}
+				
+				}
+				
+				
+			}
+			
+			if (key < 4 && i >= 26) {
+				numChaveMaxArray[key] = 0;
+				i = -1;
+			}
+			
+		}
+		
+		for (int i = 0; i < 5; i++) {
+			numChaveMaxArray[i] = max[i] - numChaveMaxArray[i];
+		}
+		
 		return numChaveMaxArray;
 	}
 	
@@ -119,9 +197,71 @@ public class CriptoJonathasRochaDeSouza {
 	/**
 	 * Descriptografa
 	 */
-	private static void descriptografia() {
-		// TODO Auto-generated method stub
+	private static String[] descriptografia(String msg, String key) {
+		String[] msgArray = msg.split("(?<=\\G.{2})");
+		String[] keyArray = key.split("(?<=\\G.{2})");
+		
+		
+		int[] msgConvertedToNumberArray = new int[msgArray.length];
+		int[] keyConvertedToNumberArray = new int[5];
+		
+		int[] msgCriptCompl = new int[msgArray.length];
+		String[] msgEnd = new String[msgArray.length];
+		
+		int iN = 0;
+		for (int i = 0; iN <= 4; i++) {
+			if (iN < keyArray.length) {
+				if (keyArray[iN].compareTo(numeros[i]) == 0) {
+					keyConvertedToNumberArray[iN] = i;
+					iN++;
+					i = -1;
+				}
+			} else if (i > numeros.length) {
+				keyConvertedToNumberArray[iN] = 0;
+				iN++;
+				i = -1;
+			}
+		}
+		
+		int iN2 = 0;
+		for (int i = 0; iN2 < msgArray.length; i++) {
+			if (msgArray[iN2].compareTo(numeros[i]) == 0) {
+				msgConvertedToNumberArray[iN2] = i;
+				iN2++;
+				i = -1;
+			}
+		}
+		
+		int iN3 = 0;
+		for (int i = 0; i < msgConvertedToNumberArray.length; i++) {
+			msgCriptCompl[i] = msgConvertedToNumberArray[i] - keyConvertedToNumberArray[iN3];
+			if (iN3 < 4) {
+				iN3++;
+			} else {
+				iN3 = 0;
+			}
+		}
+		
+		int iN4= 0;
+		for (int i = 0; iN4 < msgCriptCompl.length; i++) {
+			if (msgCriptCompl[iN4] == i) {
+				msgEnd[iN4] = letras[i];
+				iN4++;
+				i = -1;
+			}
+		}
 
+//		if (keyConvertedToNumberArray.length > 4 ) {
+//			return "A chave parece estar incorreta!";
+//		}
+		
+//		boolean liberado = false;
+//		
+//		for (int i = 0; liberado != true; i++) {
+//			
+//		}
+		
+		return msgEnd;
 	}
 	
 //	Scanner myObj = new Scanner(System.in);  // Create a Scanner object
@@ -131,3 +271,4 @@ public class CriptoJonathasRochaDeSouza {
 //    System.out.println("Username is: " + userName);  // Output user input
 	
 }
+
