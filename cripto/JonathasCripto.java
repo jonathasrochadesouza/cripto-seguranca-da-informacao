@@ -32,7 +32,7 @@ public class JonathasCripto {
 //	    System.out.println("Sua mensagem criptografada: " + convertInNumber(transformText(userName)));
 	    String[] trste = convertInNumber(transformText(userName)).split("(?<=\\G.{2})");
 	    System.out.println("Conversão em números: " + Arrays.toString(trste));
-	    System.out.println("Número máximo do radom: " + Arrays.toString(newMethodTestExperiment(trste)));
+	    System.out.println("Número máximo do random: " + Arrays.toString(newMethodTestExperiment(trste)));
 	    System.out.println("Sua chave é: " + Arrays.toString(numChave));
 //	    System.out.println("Sua mensagem criptografada: " + newMethodTestExperiment(trste));
 	    
@@ -47,6 +47,7 @@ public class JonathasCripto {
 	}
 	
 	private static int[] numChave = new int[5];
+	private static String numChaveString;
 
 	/**
 	 * 
